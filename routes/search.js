@@ -19,6 +19,6 @@ router.get('/search', function(req, res, next) {
     }).catch(e => {
       console.log(e);
     });
-})
+});
 
 module.exports = router;
