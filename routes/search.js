@@ -13,12 +13,13 @@ router.get('/search', function(req, res, next) {
         term:'bars',
         location: 'San Francisco, CA'
       }).then(response => {
-        console.log(response.jsonBody.businesses[0]);
-        res.json(response);
+        console.log("Received yelp results");
+        res.json(response.jsonBody.businesses);
       });
     }).catch(e => {
       console.log(e);
     });
 });
+
 
 module.exports = router;
