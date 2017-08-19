@@ -5,7 +5,7 @@ const yelp = require('yelp-fusion');
 
 
 /* GET yelp search listings. */
-router.get('/search', function(req, res, next) {
+router.get('/', function(req, res, next) {
     yelp.accessToken(process.env.YELP_ID, process.env.YELP_SECRET).then(response => {
       const client = yelp.client(response.jsonBody.access_token);
 

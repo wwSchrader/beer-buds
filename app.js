@@ -10,8 +10,9 @@ var helmet = require('helmet');
 
 var users = require('./routes/users');
 var search = require('./routes/search');
-
+const vote = require('./routes/vote');
 var app = express();
+const mongoose = require('mongoose');
 
 app.use(helmet());
 app.use(logger('dev'));
@@ -20,8 +21,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client/build')));
 
+// *** mongoose *** ///
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.MONGO_URI, {
+  useMongoClient: true,
+});
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log('we\'re connected!');
+});
+
 app.use('/users', users);
-app.use('/api/', search);
+app.use('/api/search', search);
+app.use('/api/vote', vote);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
