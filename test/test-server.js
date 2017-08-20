@@ -11,24 +11,6 @@ const Bar = require('../models/bar');
 chai.use(chaiHttp);
 
 describe('Server Test', function() {
-  beforeEach(function(done) {
-    const newBar = new Bar({
-      barId: 'Average-Bar',
-      usersGoing: ['John Smith', 'Abe Lincoln', 'George Washington'],
-    });
-    newBar.save(function(err) {
-      if (err) {
-        console.log(err);
-      }
-      done();
-    });
-  });
-
-  afterEach(function(done) {
-    Bar.collection.drop();
-    done();
-  });
-
   describe('Get Search Results from Yelp', function() {
     it('Get list search results from Yelp GET', function(done) {
       chai.request(server)
@@ -49,7 +31,26 @@ describe('Server Test', function() {
       });
     });
   });
+
   describe('Test the database', function() {
+    beforeEach(function(done) {
+    const newBar = new Bar({
+        barId: 'Average-Bar',
+        usersGoing: ['John Smith', 'Abe Lincoln', 'George Washington'],
+      });
+      newBar.save(function(err) {
+        if (err) {
+          console.log(err);
+        }
+        done();
+      });
+    });
+
+    afterEach(function(done) {
+      Bar.collection.drop();
+      done();
+    });
+
     it('Add bar and/or vote to database PUT', function(done) {
       chai.request(server)
       .put('/api/vote/add')
@@ -67,6 +68,7 @@ describe('Server Test', function() {
         done();
       });
     });
+
     it('Decrease vote UPDATE', function(done) {
       chai.request(server)
       .put('/api/vote/decreasevote')
