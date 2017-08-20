@@ -14,13 +14,6 @@ const vote = require('./routes/vote');
 var app = express();
 const mongoose = require('mongoose');
 
-app.use(helmet());
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'client/build')));
-
 // *** mongoose *** ///
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGO_URI, {
@@ -32,6 +25,13 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log('we\'re connected!');
 });
+
+app.use(helmet());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.use('/users', users);
 app.use('/api/search', search);
