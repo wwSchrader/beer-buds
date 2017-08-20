@@ -1,17 +1,17 @@
 if ((process.env.NODE_ENV || 'development') === 'development') {
   require('dotenv').config();
 }
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var helmet = require('helmet');
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const helmet = require('helmet');
 
-var users = require('./routes/users');
-var search = require('./routes/search');
+const users = require('./routes/users');
+const search = require('./routes/search');
 const vote = require('./routes/vote');
-var app = express();
+const app = express();
 const mongoose = require('mongoose');
 
 // *** mongoose *** ///
@@ -29,7 +29,7 @@ db.once('open', function() {
 app.use(helmet());
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client/build')));
 
@@ -39,7 +39,7 @@ app.use('/api/vote', vote);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
