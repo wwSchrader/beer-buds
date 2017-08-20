@@ -209,5 +209,18 @@ describe('Server Test', function() {
         done();
       });
     });
+
+    it('Sign Out User from Session', function(done) {
+      chai.request(server)
+      .get('/api/users/logout')
+      .end(function(err, res) {
+        res.should.have.status(200);
+        res.should.be.a('object');
+        res.body.should.have.property('isLoggedIn');
+        res.body.isLoggedIn.should.be.a('Boolean');
+        res.body.isLoggedIn.should.equal(false);
+        done();
+      });
+    });
   });
 });
