@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 
 const server = require('../app.js');
 const Bar = require('../models/bar');
+const User = require('../models/user');
 
 chai.use(chaiHttp);
 
@@ -83,6 +84,69 @@ describe('Server Test', function() {
         res.body.UPDATED.usersGoing.should.be.a('Array');
         res.body.UPDATED.usersGoing[0].should.equal('John Smith');
         res.body.UPDATED.usersGoing[1].should.equal('George Washington');
+        done();
+      });
+    });
+  });
+
+  describe('Test User Authentication', function() {
+    User.collection.drop((err) => {
+      if (err) {
+        if (err.code !== 26) {
+          console.log(err);
+        } else {
+          // Ignore the ns not found error message
+        }
+      }
+    });
+
+    // Seed database with a user
+    beforeEach(function(done) {
+      let newUser = new User({
+        username: 'firstuser@anywhere.com',
+        password: 'ungessablepassword999',
+      });
+
+      newUser.save(function(err) {
+        done();
+      });
+    });
+
+    afterEach(function(done) {
+      User.collection.drop();
+      done();
+    });
+
+    it('Add user to database', function(done) {
+      chai.request(server)
+      .put('/api/users/register')
+      .send({
+        username: 'useremail@somewhere.com',
+        password: 'password123',
+      })
+      .end(function(err, res) {
+        res.should.have.status(200);
+        res.should.be.a('object');
+        res.body.should.have.property('REGISTERED');
+        res.body.REGISTERED.should.be.a('String');
+        res.body.REGISTERED.should.equal('COMPLETE');
+        done();
+      });
+    });
+
+    it('Reject user to database since it already exists', function(done) {
+      chai.request(server)
+      .put('/api/users/register')
+      .send({
+        username: 'firstuser@anywhere.com',
+        password: 'ungessablepassword999',
+      })
+      .end(function(err, res) {
+        res.should.have.status(200);
+        res.should.be.a('object');
+        res.body.should.have.property('REGISTERED');
+        res.body.REGISTERED.should.be.a('String');
+        res.body.REGISTERED.should.equal('User is already registered.');
         done();
       });
     });

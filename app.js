@@ -52,7 +52,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.use('/users', users);
+app.use('/api/users', users);
 app.use('/api/search', search);
 app.use('/api/vote', vote);
 
