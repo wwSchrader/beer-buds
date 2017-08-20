@@ -1,9 +1,9 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var barSchema = new Schema({
+const barSchema = new Schema({
   barId: String,
-  usersGoing: []
+  usersGoing: [],
 });
 
 module.exports = mongoose.model('bars', barSchema);
