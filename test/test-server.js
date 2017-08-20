@@ -8,12 +8,14 @@ const mongoose = require('mongoose');
 const server = require('../app.js');
 const Bar = require('../models/bar');
 const User = require('../models/user');
+const bcrypt = require('bcrypt');
 
 chai.use(chaiHttp);
 
 describe('Server Test', function() {
   describe('Get Search Results from Yelp', function() {
     it('Get list search results from Yelp GET', function(done) {
+      this.timeout(3000); // eslint-disable-line no-invalid-this
       chai.request(server)
       .get('/api/search')
       .end(function(err, res) {
@@ -102,13 +104,14 @@ describe('Server Test', function() {
 
     // Seed database with a user
     beforeEach(function(done) {
-      let newUser = new User({
-        username: 'firstuser@anywhere.com',
-        password: 'ungessablepassword999',
-      });
-
-      newUser.save(function(err) {
-        done();
+      bcrypt.hash('ungessablepassword999', 12).then((hash) => {
+        let newUser = new User({
+          username: 'firstuser@anywhere.com',
+          password: hash,
+        });
+        newUser.save(function(err) {
+          done();
+        });
       });
     });
 
@@ -147,6 +150,62 @@ describe('Server Test', function() {
         res.body.should.have.property('REGISTERED');
         res.body.REGISTERED.should.be.a('String');
         res.body.REGISTERED.should.equal('User is already registered.');
+        done();
+      });
+    });
+
+    it('Login user and start session with local strategy', function(done) {
+      chai.request(server)
+      .post('/api/users/login')
+      .send({
+        username: 'firstuser@anywhere.com',
+        password: 'ungessablepassword999',
+      })
+      .end(function(err, res) {
+        console.log(res.body);
+        res.should.have.status(200);
+        res.should.be.a('object');
+        res.body.should.have.property('isLoggedIn');
+        res.body.should.have.property('userId');
+        res.body.isLoggedIn.should.be.a('Boolean');
+        res.body.isLoggedIn.should.equal(true);
+        res.body.userId.should.be.a('String');
+        done();
+      });
+    });
+
+    it('Fail login with wrong password with local strategy', function(done) {
+      chai.request(server)
+      .post('/api/users/login')
+      .send({
+        username: 'firstuser@anywhere.com',
+        password: 'wrongpassword123',
+      })
+      .end(function(err, res) {
+        console.log(res.body);
+        res.should.have.status(401);
+        res.should.be.a('object');
+        res.body.should.have.property('authError');
+        res.body.authError.should.be.a('String');
+        res.body.authError.should.equal('Incorrect password');
+        done();
+      });
+    });
+
+    it('Fail login with wrong username with local strategy', function(done) {
+      chai.request(server)
+      .post('/api/users/login')
+      .send({
+        username: 'nonexistientuser@anywhere.com',
+        password: 'wrongpassword123',
+      })
+      .end(function(err, res) {
+        console.log(res.body);
+        res.should.have.status(401);
+        res.should.be.a('object');
+        res.body.should.have.property('authError');
+        res.body.authError.should.be.a('String');
+        res.body.authError.should.equal('Incorrect username');
         done();
       });
     });
