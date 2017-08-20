@@ -1,9 +1,9 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var yelpApiTokenSchema = new Schema({
-    accessToken: String,
-    expirationDate: int
+const yelpApiTokenSchema = new Schema({
+  accessToken: String,
+  expirationDate: int,
 });
 
 module.exports = mongoose.model('yelpApiToken', yelpApiTokenSchema);
