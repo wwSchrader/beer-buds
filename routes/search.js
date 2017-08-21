@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 
       client.search({
         term: 'bars',
-        location: 'San Francisco, CA',
+        location: req.query.searchterm,
       }).then((response) => {
         console.log('Received yelp results');
         res.json(response.jsonBody.businesses);
