@@ -12,6 +12,18 @@ class SearchForm extends Component {
     };
 
     this.onSearchTermTextChange = this.onSearchTermTextChange.bind(this);
+    this.onSearchButtonPress = this.onSearchButtonPress.bind(this);
+  }
+
+  handleSearchTextSubmit() {
+    this.props.searchTermHandler(this.state.searchBoxText);
+  }
+
+  onSearchButtonPress(e) {
+    e.preventDefault();
+    if (this.state.searchBoxText.length > 0) {
+      this.handleSearchTextSubmit();
+    }
   }
 
   onSearchTermTextChange(e) {
@@ -20,7 +32,7 @@ class SearchForm extends Component {
 
   render() {
     return (
-      <Form inline>
+      <Form inline onSubmit={this.onSearchButtonPress}>
         <FormGroup controlId='searchInput'>
           <FormControl
               type='text'
