@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import SearchForm from './SearchForm.js';
+import SearchResults from './SearchResults.js';
 import '../css/App.css';
 
 /**
@@ -26,7 +27,7 @@ class App extends Component {
         <h4>See which bars are hoppin' tonight and RSVP ahead of time!</h4>
         <h4>Remember: take a cab and drink responsibly.</h4>
         <SearchForm searchTermHandler={this.onSearchTermUpdate} />
-        {this.state.searchTerm}
+        <SearchResults searchTerm={this.state.searchTerm} />
       </div>
     );
   }
