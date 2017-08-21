@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
+import SearchItem from './SearchItem';
+import {Grid, Row, Col} from 'react-bootstrap';
+import Masonry from 'react-masonry-component';
 
 class SearchResults extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchTerm: this.props.searchTerm,
+      searchTerm: '',
       searchResults: [],
     };
 
@@ -18,7 +21,6 @@ class SearchResults extends Component {
   }
 
   getSearchResults() {
-    console.log(this.state.searchTerm, );
     fetch('/api/search?searchterm=' + this.state.searchTerm)
       .then((resp) => resp.json())
       .then((res) => this.setState({searchResults: res}))
@@ -30,14 +32,14 @@ class SearchResults extends Component {
     if (this.state.searchResults.length > 0) {
       searchResults = this.state.searchResults.map((bar) => {
         return (
-          <h3>{bar.name}</h3>
+          <SearchItem key={bar.id} searchItem={bar} />
         );
       });
     }
     return (
-      <div>
-        {searchResults}
-      </div>
+      <Masonry>
+          {searchResults}
+      </Masonry>
     );
   }
 }
