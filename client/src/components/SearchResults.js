@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import SearchItem from './SearchItem';
-import {Grid, Row, Col} from 'react-bootstrap';
 import Masonry from 'react-masonry-component';
 
 class SearchResults extends Component {
