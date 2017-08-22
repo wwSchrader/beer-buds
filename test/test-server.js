@@ -17,7 +17,7 @@ describe('Server Test', function() {
     it('Get list search results from Yelp GET', function(done) {
       this.timeout(3000); // eslint-disable-line no-invalid-this
       chai.request(server)
-      .get('/api/search')
+      .get('/api/search?searchterm=paris')
       .end(function(err, res) {
         res.res.body[0].should.be.a('Object');
         res.res.body[0].should.have.property('id');
