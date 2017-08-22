@@ -25,11 +25,17 @@ describe('Server Test', function() {
         res.res.body[0].should.have.property('image_url');
         res.res.body[0].should.have.property('url');
         res.res.body[0].should.have.property('rating');
+        res.res.body[0].should.have.property('usersGoing');
+        res.res.body[0].should.have.property('currentUserGoing');
         res.res.body[0].id.should.be.a('String');
         res.res.body[0].name.should.be.a('String');
         res.res.body[0].image_url.should.be.a('String');
         res.res.body[0].url.should.be.a('String');
         res.res.body[0].rating.should.be.a('number');
+        res.res.body[0].usersGoing.should.be.a('Number');
+        res.res.body[0].usersGoing.should.equal(0);
+        res.res.body[0].currentUserGoing.should.be.a('Boolean');
+        res.res.body[0].currentUserGoing.should.equal(false);
         done();
       });
     });
