@@ -17,7 +17,6 @@ class App extends Component {
   }
 
   onSearchTermUpdate(newSearchTerm) {
-    console.log("on search term update");
     this.setState({searchTerm: newSearchTerm});
   }
 

@@ -21,13 +21,10 @@ class SearchResults extends Component {
   }
 
   getSearchResults() {
-    console.log("Fetch Request");
-    console.log(this.state.searchTerm);
     this.setState({loadingScreen: true});
     fetch('/api/search?searchterm=' + this.state.searchTerm)
       .then((resp) => resp.json())
       .then((res) => {
-        console.log("Fetch Complete");
         this.setState({searchResults: res, loadingScreen: false});
       })
       .catch((ex) => console.log('Something went wrong: ' + ex));
@@ -37,17 +34,14 @@ class SearchResults extends Component {
     let searchResults = null;
     if (this.state.loadingScreen) {
       searchResults = (<h2>Loading Results</h2>);
-    } else {
-      if (this.state.searchResults.length > 0) {
-        searchResults = this.state.searchResults.map((bar) => {
-          return (
-            <SearchItem key={bar.id} searchItem={bar} />
-          );
-        });
-      }
+    } else if (this.state.searchResults.length > 0) {
+      searchResults = this.state.searchResults.map((bar) => {
+        return (
+          <SearchItem key={bar.id} searchItem={bar} />
+        );
+      });
     }
 
-    console.log("Search Results Render");
     return (
       <Masonry>
           {searchResults}

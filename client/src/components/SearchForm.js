@@ -16,13 +16,11 @@ class SearchForm extends Component {
   }
 
   handleSearchTextSubmit() {
-    console.log("handle search text submit");
     this.props.searchTermHandler(this.state.searchBoxText);
   }
 
   onSearchButtonPress(e) {
     e.preventDefault();
-    console.log("Submit button pressed");
     if (this.state.searchBoxText.length > 0) {
       this.handleSearchTextSubmit();
     }
