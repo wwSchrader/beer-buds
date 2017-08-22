@@ -14,6 +14,7 @@ const passport = require('passport');
 const session = require('express-session');
 const flash = require('connect-flash');
 const LocalStrategy = require('passport-local').Strategy;
+const MongoStore = require('connect-mongo')(session);
 
 const users = require('./routes/users')(passport);
 const search = require('./routes/search');
@@ -80,10 +81,12 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
+  name: 'sessionId',
+  store: new MongoStore({mongooseConnection: db}),
 }));
 app.use(flash());
 app.use(passport.initialize());
-app.use((passport.session()));
+app.use(passport.session());
 
 app.all('*', (request, response, next) => {
   request.passport = passport;
