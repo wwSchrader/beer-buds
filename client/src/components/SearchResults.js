@@ -33,7 +33,7 @@ class SearchResults extends Component {
   render() {
     let searchResults = null;
     if (this.state.loadingScreen) {
-      searchResults = (<h2>Loading Results</h2>);
+      searchResults = <h2>Loading Results</h2>;
     } else if (this.state.searchResults.length > 0) {
       searchResults = this.state.searchResults.map((bar) => {
         return (
