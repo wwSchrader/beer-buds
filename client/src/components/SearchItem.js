@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Thumbnail, Col} from 'react-bootstrap';
+import {Thumbnail, Col, Button} from 'react-bootstrap';
 import '../css/SearchItem.css';
 
 class SearchItem extends Component {
@@ -22,6 +22,10 @@ class SearchItem extends Component {
             <p>Category: {this.state.searchItem.categories[0].title}</p>
             <p>Rating: {this.state.searchItem.rating}</p>
             <p>Price: {this.state.searchItem.price}</p>
+            <p>
+              <Button bsStyle='primary'>Going? % others are</Button>&nbsp;
+              <Button>Visit Website</Button>
+            </p>
           </Thumbnail>
       </Col>
     );
