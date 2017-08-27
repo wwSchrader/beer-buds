@@ -27,6 +27,7 @@ describe('Server Test', function() {
         res.res.body[0].should.have.property('rating');
         res.res.body[0].should.have.property('usersGoing');
         res.res.body[0].should.have.property('currentUserGoing');
+        res.res.boyd[0].should.have.property('categories');
         res.res.body[0].id.should.be.a('String');
         res.res.body[0].name.should.be.a('String');
         res.res.body[0].image_url.should.be.a('String');
@@ -36,6 +37,8 @@ describe('Server Test', function() {
         res.res.body[0].usersGoing.should.equal(0);
         res.res.body[0].currentUserGoing.should.be.a('Boolean');
         res.res.body[0].currentUserGoing.should.equal(false);
+        res.res.body[0].categories.should.be.a('Array');
+        res.res.body[0].categories[0].should.be.a('String');
         done();
       });
     });

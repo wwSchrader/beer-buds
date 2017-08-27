@@ -25,7 +25,7 @@ class SearchResults extends Component {
     fetch('/api/search?searchterm=' + this.state.searchTerm)
       .then((resp) => resp.json())
       .then((res) => {
-        this.setState({searchResults: res, loadingScreen: false});
+        this.setState({loadingScreen: false, searchResults: res});
       })
       .catch((ex) => console.log('Something went wrong: ' + ex));
   }

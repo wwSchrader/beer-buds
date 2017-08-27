@@ -13,6 +13,7 @@ router.get('/', function(req, res, next) {
       client.search({
         term: 'bars',
         location: req.query.searchterm,
+        limit: 50,
       }).then((response) => {
         let searchResultsArray = response.jsonBody.businesses;
         // reformat array to send only the parts that will be used on the site
@@ -27,6 +28,7 @@ router.get('/', function(req, res, next) {
             url: bar.url,
             usersGoing: 0,
             currentUserGoing: false,
+            categories: bar.categories,
           };
         });
         res.json(responseResultsArray);
