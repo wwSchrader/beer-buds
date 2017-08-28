@@ -31,6 +31,7 @@ class SearchResults extends Component {
   }
 
   render() {
+    console.log(this.state.searchResults);
     let searchResults = null;
     if (this.state.loadingScreen) {
       searchResults = <h2>Loading Results</h2>;

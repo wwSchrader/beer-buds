@@ -66,6 +66,9 @@ describe('Server Test', function() {
     });
 
     it('Add bar and/or vote to database PUT', function(done) {
+      server.request.isAuthenticated = function() {
+          return true;
+        };
       chai.request(server)
       .put('/api/vote/add')
       .send({barId: 'best-bar-in-the-world', usersGoing: 'warren'})
@@ -211,7 +214,6 @@ describe('Server Test', function() {
         password: 'wrongpassword123',
       })
       .end(function(err, res) {
-        console.log(res.body);
         res.should.have.status(401);
         res.should.be.a('object');
         res.body.should.have.property('authError');
@@ -231,6 +233,41 @@ describe('Server Test', function() {
         res.body.isLoggedIn.should.be.a('Boolean');
         res.body.isLoggedIn.should.equal(false);
         done();
+      });
+    });
+
+    describe('Test authentication', function() {
+      it('Press button while logged In', function(done) {
+        server.request.isAuthenticated = function() {
+          return true;
+        };
+        chai.request(server)
+          .put('/api/vote/add')
+          .send({barId: 'best-bar-in-the-world', usersGoing: 'warren'})
+          .end(function(err, res) {
+            res.should.have.status(200);
+            res.should.be.json;
+            res.body.should.be.a('object');
+            res.body.should.have.property('SUCCESS');
+            res.body.SUCCESS.should.be.a('object');
+            res.body.SUCCESS.should.have.property('barId');
+            res.body.SUCCESS.should.have.property('usersGoing');
+            res.body.SUCCESS.barId.should.be.a('String');
+            res.body.SUCCESS.usersGoing.should.be.a('Array');
+            done();
+        });
+      });
+      it('Press button while not logged in', function(done) {
+        server.request.isAuthenticated = function() {
+          return false;
+        };
+         chai.request(server)
+          .put('/api/vote/add')
+          .send({barId: 'best-bar-in-the-world', usersGoing: 'warren'})
+          .end(function(err, res) {
+            res.should.have.status(401);
+            done();
+        });
       });
     });
   });

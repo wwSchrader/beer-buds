@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Bar = require('../models/bar');
-
+const {ensureAuthenticated} = require('../library');
 
 /* Put bar and vote into listing. */
-router.put('/add', function(req, res, next) {
+router.put('/add', ensureAuthenticated, function(req, res, next) {
   // add to database here
   let newBar = new Bar({
     barId: req.body.barId,
@@ -20,7 +20,7 @@ router.put('/add', function(req, res, next) {
 });
 
 /* Update bar to remove user from usergoing list */
-router.put('/decreasevote', function(req, res, next) {
+router.put('/decreasevote', ensureAuthenticated, function(req, res, next) {
   // find bar in database first
   Bar.findOne({barId: req.body.barId}, function(err, bar) {
     if (!bar) {
