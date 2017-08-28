@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
 const yelp = require('yelp-fusion');
+const Bar = require('../models/bar');
 
 
 /* GET yelp search listings. */
@@ -18,6 +19,19 @@ router.get('/', function(req, res, next) {
         let searchResultsArray = response.jsonBody.businesses;
         // reformat array to send only the parts that will be used on the site
         let responseResultsArray = searchResultsArray.map((bar) => {
+          let currentUserGoing = false;
+          let usersGoing = 0;
+          Bar.findOne({barId: req.body.id}, (err, bar) => {
+            if (err || !bar) {
+              currentUserGoing = false;
+              usersGoing = 0;
+            } else {
+              usersGoing = bar.usersGoing.length;
+              if (bar.usersGoing.find(req.body.username)) {
+                currentUserGoing = true;
+              }
+            }
+          });
           return {
             category: bar.category,
             id: bar.id,
@@ -26,8 +40,8 @@ router.get('/', function(req, res, next) {
             image_url: bar.image_url,
             rating: bar.rating,
             url: bar.url,
-            usersGoing: 0,
-            currentUserGoing: false,
+            usersGoing: usersGoing,
+            currentUserGoing: currentUserGoing,
             categories: bar.categories,
           };
         });

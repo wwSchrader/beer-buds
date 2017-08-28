@@ -14,6 +14,7 @@ chai.use(chaiHttp);
 
 describe('Server Test', function() {
   describe('Get Search Results from Yelp', function() {
+
     it('Get list search results from Yelp GET', function(done) {
       this.timeout(3000); // eslint-disable-line no-invalid-this
       chai.request(server)
@@ -91,6 +92,7 @@ describe('Server Test', function() {
       .put('/api/vote/decreasevote')
       .send({barId: 'Average-Bar', usersLeaving: 'Abe Lincoln'})
       .end(function(err, res) {
+        console.log("Decrease vote");
         res.should.have.status(200);
         res.should.be.a('object');
         res.body.should.have.property('UPDATED');
@@ -176,7 +178,6 @@ describe('Server Test', function() {
         password: 'ungessablepassword999',
       })
       .end(function(err, res) {
-        console.log(res.body);
         res.should.have.status(200);
         res.should.be.a('object');
         res.body.should.have.property('isLoggedIn');
