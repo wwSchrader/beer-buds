@@ -23,7 +23,12 @@ class SearchItem extends Component {
             <p>Rating: {this.state.searchItem.rating}</p>
             <p>Price: {this.state.searchItem.price}</p>
             <p>
-              <Button bsStyle='primary'>Going? % others are</Button>&nbsp;
+              <Button
+                  bsStyle={this.state.searchItem.currentUserGoing ?
+                    'success' : 'primary'}
+              >
+                {this.state.searchItem.usersGoing} others are going
+              </Button>&nbsp;
               <Button>Visit Website</Button>
             </p>
           </Thumbnail>
