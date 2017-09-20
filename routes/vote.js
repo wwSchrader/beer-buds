@@ -8,7 +8,7 @@ router.put('/add', ensureAuthenticated, function(req, res, next) {
   // add to database here
   let newBar = new Bar({
     barId: req.body.barId,
-    usersGoing: [req.body.usersGoing],
+    usersGoing: [req.user.username],
   });
   newBar.save(function(err) {
     if (err) {

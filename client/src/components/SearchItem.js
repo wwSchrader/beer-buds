@@ -8,10 +8,31 @@ class SearchItem extends Component {
     this.state = {
       searchItem: props.searchItem,
     };
+
+    this.onButtonPress = this.onButtonPress.bind(this);
   }
 
   componentReceiveProps(newProps) {
     this.setState({searchItem: newProps.searchItem});
+  }
+
+  onButtonPress() {
+    console.log(this.state);
+    let fetchUrl;
+    if (this.state.searchItem.currentUserGoing) {
+      console.log("user is not going");
+      fetchUrl = '/api/vote/decreasevote';
+    } else {
+      console.log("user is going");
+      fetchUrl = '/api/vote/add';
+    }
+    fetch(fetchUrl, {
+      method: 'PUT',
+      body: {barId: this.state.searchItem.id},
+    })
+    .then((response) => {
+
+    });
   }
 
   render() {
@@ -26,6 +47,7 @@ class SearchItem extends Component {
               <Button
                   bsStyle={this.state.searchItem.currentUserGoing ?
                     'success' : 'primary'}
+                  onClick={this.onButtonPress}
               >
                 {this.state.searchItem.usersGoing} others are going
               </Button>&nbsp;
