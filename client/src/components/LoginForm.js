@@ -10,11 +10,18 @@ class LoginForm extends Component {
     };
 
     this.onUsernameChange = this.onUsernameChange.bind(this);
+    this.onPasswordChange = this.onPasswordChange.bind(this);
   }
 
   onUsernameChange(e) {
     this.setState({
       username: e.target.value,
+    });
+  }
+
+  onPasswordChange(e) {
+    this.setState({
+      password: e.target.value,
     });
   }
 
@@ -34,6 +41,8 @@ class LoginForm extends Component {
             id="password"
             type="password"
             placeholder="Enter password"
+            value={this.state.password}
+            onChange={this.onPasswordChange}
         />
       </Form>
     );
