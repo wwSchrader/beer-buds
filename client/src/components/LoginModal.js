@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
+import LoginForm from './LoginForm.js';
 
 class LoginModal extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class LoginModal extends Component {
           <Modal.Title>Login</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h1>Login Buttons go here</h1>
+          <LoginForm />
         </Modal.Body>
       </Modal>
     );
