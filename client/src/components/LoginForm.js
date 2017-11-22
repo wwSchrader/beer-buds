@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, ControlLabel, FormControl, FormGroup, Button}
+import {Form, ControlLabel, FormControl, FormGroup, Button, HelpBlock}
   from 'react-bootstrap';
 
 class LoginForm extends Component {
@@ -8,6 +8,7 @@ class LoginForm extends Component {
     this.state = {
       username: '',
       password: '',
+      loginButtonPressed: false,
     };
 
     this.onUsernameChange = this.onUsernameChange.bind(this);
@@ -29,14 +30,52 @@ class LoginForm extends Component {
 
   onLoginButtonPress(e) {
     e.preventDefault();
+    this.setState({
+      loginButtonPressed: true,
+    });
     console.log('Button Press');
   }
 
+  getValidationState(text) {
+    if (this.state.loginButtonPressed) {
+      if (text.length > 0) {
+        return 'success';
+      } else {
+        return 'error';
+      }
+    } else {
+      return null;
+    }
+  }
+
+  showUsernameHelpBlock() {
+    if (
+      this.state.loginButtonPressed &&
+      this.getValidationState(this.state.username) === 'error') {
+      return <HelpBlock>Please enter your username</HelpBlock>;
+    } else {
+      return null;
+    }
+  }
+
+  showPasswordHelpBlock() {
+    if (
+      this.state.loginButtonPressed &&
+      this.getValidationState(this.state.password) === 'error') {
+      return <HelpBlock>Please enter your password</HelpBlock>;
+    } else {
+      return null;
+    }
+  }
+
   render() {
+    this.usernameHelpBlock = this.showUsernameHelpBlock();
+    this.passwordHelpBlock = this.showPasswordHelpBlock();
     return (
       <Form onSubmit={this.onLoginButtonPress}>
         <FormGroup
             controlId="userName"
+            validationState={this.getValidationState(this.state.username)}
         >
           <ControlLabel>Username</ControlLabel>
           <FormControl
@@ -46,10 +85,12 @@ class LoginForm extends Component {
               onChange={this.onUsernameChange}
           />
           <FormControl.Feedback />
+          {this.usernameHelpBlock}
         </FormGroup>
 
         <FormGroup
             controlId="password"
+            validationState={this.getValidationState(this.state.password)}
         >
           <ControlLabel>Password</ControlLabel>
           <FormControl
@@ -58,6 +99,8 @@ class LoginForm extends Component {
               value={this.state.password}
               onChange={this.onPasswordChange}
           />
+          <FormControl.Feedback />
+          {this.passwordHelpBlock}
         </FormGroup>
         <Button
             bsStyle="primary"
