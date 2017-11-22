@@ -12,6 +12,7 @@ class LoginForm extends Component {
 
     this.onUsernameChange = this.onUsernameChange.bind(this);
     this.onPasswordChange = this.onPasswordChange.bind(this);
+    this.onLoginButtonPress = this.onLoginButtonPress.bind(this);
   }
 
   onUsernameChange(e) {
@@ -26,9 +27,14 @@ class LoginForm extends Component {
     });
   }
 
+  onLoginButtonPress(e) {
+    e.preventDefault();
+    console.log('Button Press');
+  }
+
   render() {
     return (
-      <Form>
+      <Form onSubmit={this.onLoginButtonPress}>
         <FormGroup
             controlId="userName"
         >
@@ -55,6 +61,7 @@ class LoginForm extends Component {
         </FormGroup>
         <Button
             bsStyle="primary"
+            type="submit"
         >
           Login
         </Button>
