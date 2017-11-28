@@ -69,8 +69,8 @@ class LoginForm extends Component {
   }
 
   render() {
-    this.usernameHelpBlock = this.showUsernameHelpBlock();
-    this.passwordHelpBlock = this.showPasswordHelpBlock();
+    let usernameHelpBlock = this.showUsernameHelpBlock();
+    let passwordHelpBlock = this.showPasswordHelpBlock();
     return (
       <Form onSubmit={this.onLoginButtonPress}>
         <FormGroup
@@ -85,7 +85,7 @@ class LoginForm extends Component {
               onChange={this.onUsernameChange}
           />
           <FormControl.Feedback />
-          {this.usernameHelpBlock}
+          {usernameHelpBlock}
         </FormGroup>
 
         <FormGroup
@@ -100,7 +100,7 @@ class LoginForm extends Component {
               onChange={this.onPasswordChange}
           />
           <FormControl.Feedback />
-          {this.passwordHelpBlock}
+          {passwordHelpBlock}
         </FormGroup>
         <Button
             bsStyle="primary"
