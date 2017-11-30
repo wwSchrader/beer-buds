@@ -21,13 +21,16 @@ class SearchResults extends Component {
   }
 
   getSearchResults() {
-    this.setState({loadingScreen: true});
-    fetch('/api/search?searchterm=' + this.state.searchTerm)
-      .then((resp) => resp.json())
-      .then((res) => {
-        this.setState({loadingScreen: false, searchResults: res});
-      })
-      .catch((ex) => console.log('Something went wrong: ' + ex));
+    // if search term is not blank, get search results from server
+    if (this.state.searchTerm.length !== 0) {
+      this.setState({loadingScreen: true});
+      fetch('/api/search?searchterm=' + this.state.searchTerm)
+        .then((resp) => resp.json())
+        .then((res) => {
+          this.setState({loadingScreen: false, searchResults: res});
+        })
+        .catch((ex) => console.log('Something went wrong: ' + ex));
+    }
   }
 
   render() {
