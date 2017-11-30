@@ -9,11 +9,20 @@ class LoginForm extends Component {
       username: '',
       password: '',
       loginButtonPressed: false,
+      registrationState: props.registrationState,
     };
 
     this.onUsernameChange = this.onUsernameChange.bind(this);
     this.onPasswordChange = this.onPasswordChange.bind(this);
     this.onLoginButtonPress = this.onLoginButtonPress.bind(this);
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      registrationState: newProps.registrationState,
+      username: '',
+      password: '',
+    });
   }
 
   onUsernameChange(e) {
@@ -68,6 +77,14 @@ class LoginForm extends Component {
     }
   }
 
+  returnButtonText() {
+    if (this.state.registrationState) {
+      return 'Register';
+    } else {
+      return 'Login';
+    }
+  }
+
   render() {
     let usernameHelpBlock = this.showUsernameHelpBlock();
     let passwordHelpBlock = this.showPasswordHelpBlock();
@@ -106,7 +123,7 @@ class LoginForm extends Component {
             bsStyle="primary"
             type="submit"
         >
-          Login
+          {this.returnButtonText()}
         </Button>
       </Form>
 

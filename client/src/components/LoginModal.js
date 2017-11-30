@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal} from 'react-bootstrap';
+import {Modal, Button} from 'react-bootstrap';
 import LoginForm from './LoginForm.js';
 
 class LoginModal extends Component {
@@ -7,9 +7,11 @@ class LoginModal extends Component {
     super(props);
     this.state = {
       showModal: false,
+      registrationMode: false,
     };
 
     this.closeLoginModal = this.closeLoginModal.bind(this);
+    this.flipRegistrationModeState = this.flipRegistrationModeState.bind(this);
   }
 
   componentWillReceiveProps(newProps) {
@@ -22,6 +24,26 @@ class LoginModal extends Component {
     this.props.closeModal();
   }
 
+  getModalTitle() {
+    if (this.state.registrationMode) {
+      return 'Register';
+    } else {
+      return 'Login';
+    }
+  }
+
+  flipRegistrationModeState() {
+    this.setState({registrationMode: !this.state.registrationMode});
+  }
+
+  getRegistrationModeButtonText() {
+    if (this.state.registrationMode) {
+      return 'Cancel';
+    } else {
+      return 'Register';
+    }
+  }
+
   render() {
     return (
       <Modal
@@ -29,10 +51,17 @@ class LoginModal extends Component {
           onHide={this.closeLoginModal}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Login</Modal.Title>
+          <Modal.Title>{this.getModalTitle()}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <LoginForm />
+          <LoginForm
+              registrationState={this.state.registrationMode}
+          />
+          <Button
+              onClick={this.flipRegistrationModeState}
+          >
+              {this.getRegistrationModeButtonText()}
+          </Button>
         </Modal.Body>
       </Modal>
     );
