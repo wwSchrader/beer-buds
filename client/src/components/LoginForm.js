@@ -42,7 +42,35 @@ class LoginForm extends Component {
     this.setState({
       loginButtonPressed: true,
     });
-    console.log('Button Press');
+    if (
+      this.state.username.length > 0 &&
+      this.state.password.length > 0) {
+        console.log('fetch request');
+        let userRoute = '';
+        let method = '';
+
+        if (this.state.registrationState) {
+          userRoute = 'register';
+          method = 'PUT';
+        } else {
+          userRoute = 'login';
+          method = 'POST';
+        }
+        let data = {
+          username: this.state.username,
+          password: this.state.password,
+        };
+        fetch('/api/users/' + userRoute, {
+          method: method,
+          body: JSON.stringify(data),
+          headers: {'Content-Type': 'application/json'},
+        })
+      .then((resp) => resp.json())
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((ex) => console.log('Registration failed: ' + ex));
+    }
   }
 
   getValidationState(text) {
