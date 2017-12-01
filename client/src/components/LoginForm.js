@@ -22,6 +22,7 @@ class LoginForm extends Component {
       registrationState: newProps.registrationState,
       username: '',
       password: '',
+      loginButtonPressed: false,
     });
   }
 
