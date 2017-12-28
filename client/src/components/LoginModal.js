@@ -56,6 +56,8 @@ class LoginModal extends Component {
         <Modal.Body>
           <LoginForm
               registrationState={this.state.registrationMode}
+              onOpenLoginAlert={this.props.onOpenLoginAlert}
+              closeLoginModal={this.closeLoginModal}
           />
           <Button
               onClick={this.flipRegistrationModeState}

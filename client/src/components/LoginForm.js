@@ -69,6 +69,10 @@ class LoginForm extends Component {
       .then((resp) => resp.json())
       .then((res) => {
         console.log(res);
+        if (res.isLoggedIn) {
+          this.props.onOpenLoginAlert();
+          this.props.closeLoginModal();
+        }
       })
       .catch((ex) => console.log('Registration failed: ' + ex));
     }
