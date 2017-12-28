@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, ControlLabel, FormControl, FormGroup, Button, HelpBlock}
+import {Form, ControlLabel, FormControl, FormGroup, Button, HelpBlock, Alert}
   from 'react-bootstrap';
 
 class LoginForm extends Component {
@@ -10,11 +10,13 @@ class LoginForm extends Component {
       password: '',
       loginButtonPressed: false,
       registrationState: props.registrationState,
+      loginErrorMessage: '',
     };
 
     this.onUsernameChange = this.onUsernameChange.bind(this);
     this.onPasswordChange = this.onPasswordChange.bind(this);
     this.onLoginButtonPress = this.onLoginButtonPress.bind(this);
+    this.showLoginErrorMessage = this.showLoginErrorMessage.bind(this);
   }
 
   componentWillReceiveProps(newProps) {
@@ -23,6 +25,7 @@ class LoginForm extends Component {
       username: '',
       password: '',
       loginButtonPressed: false,
+      loginErrorMessage: '',
     });
   }
 
@@ -68,10 +71,19 @@ class LoginForm extends Component {
         })
       .then((resp) => resp.json())
       .then((res) => {
-        console.log(res);
         if (res.isLoggedIn) {
           this.props.onOpenLoginAlert();
           this.props.closeLoginModal();
+        } else if (res.authError || res.REGISTERED !== 'COMPLETE') {
+          let errorMessage;
+          if (res.authError) {
+            errorMessage = res.authError;
+          } else {
+            errorMessage = res.REGISTERED;
+          }
+          this.setState({
+            loginErrorMessage: errorMessage,
+          });
         }
       })
       .catch((ex) => console.log('Registration failed: ' + ex));
@@ -118,9 +130,20 @@ class LoginForm extends Component {
     }
   }
 
+  showLoginErrorMessage() {
+    if (this.state.loginErrorMessage !== '') {
+      return (
+        <Alert bsStyle='danger'>{this.state.loginErrorMessage}</Alert>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
     let usernameHelpBlock = this.showUsernameHelpBlock();
     let passwordHelpBlock = this.showPasswordHelpBlock();
+    let serverLoginErrorMessage = this.showLoginErrorMessage();
     return (
       <Form onSubmit={this.onLoginButtonPress}>
         <FormGroup
@@ -152,6 +175,7 @@ class LoginForm extends Component {
           <FormControl.Feedback />
           {passwordHelpBlock}
         </FormGroup>
+        {serverLoginErrorMessage}
         <Button
             bsStyle="primary"
             type="submit"
