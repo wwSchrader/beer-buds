@@ -10,10 +10,15 @@ class SearchItem extends Component {
     };
 
     this.onButtonPress = this.onButtonPress.bind(this);
+    this.onOpenLoginModal = this.onOpenLoginModal.bind(this);
   }
 
   componentReceiveProps(newProps) {
     this.setState({searchItem: newProps.searchItem});
+  }
+
+  onOpenLoginModal() {
+    this.props.onOpenLoginModal();
   }
 
   onButtonPress() {
@@ -31,7 +36,10 @@ class SearchItem extends Component {
       body: {barId: this.state.searchItem.id},
     })
     .then((response) => {
-
+      console.log(response);
+      if (response.status === 401) {
+        this.onOpenLoginModal();
+      }
     });
   }
 

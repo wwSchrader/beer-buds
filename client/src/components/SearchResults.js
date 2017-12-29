@@ -12,12 +12,17 @@ class SearchResults extends Component {
     };
 
     this.getSearchResults = this.getSearchResults.bind(this);
+    this.onOpenLoginModal = this.onOpenLoginModal.bind(this);
   }
 
   componentWillReceiveProps(newProps) {
     this.setState({searchTerm: newProps.searchTerm}, () => {
       this.getSearchResults();
     });
+  }
+
+  onOpenLoginModal() {
+    this.props.openLoginModal();
   }
 
   getSearchResults() {
@@ -41,7 +46,11 @@ class SearchResults extends Component {
     } else if (this.state.searchResults.length > 0) {
       searchResults = this.state.searchResults.map((bar) => {
         return (
-          <SearchItem key={bar.id} searchItem={bar} />
+          <SearchItem
+              key={bar.id}
+              searchItem={bar}
+              onOpenLoginModal={this.onOpenLoginModal}
+          />
         );
       });
     }

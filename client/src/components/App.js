@@ -70,7 +70,10 @@ class App extends Component {
             onOpenLoginAlert={this.onOpenLoginAlert}
         />
         <SearchForm searchTermHandler={this.onSearchTermUpdate} />
-        <SearchResults searchTerm={this.state.searchTerm} />
+        <SearchResults
+            searchTerm={this.state.searchTerm}
+            openLoginModal={this.openLoginModal}
+        />
       </div>
     );
   }
