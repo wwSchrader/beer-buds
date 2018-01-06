@@ -50,7 +50,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  datastore.findUserById(id)
+  User.findById(id)
     .then((response) => {
       return done(null, response);
     })

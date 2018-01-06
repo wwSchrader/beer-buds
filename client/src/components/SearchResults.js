@@ -29,7 +29,11 @@ class SearchResults extends Component {
     // if search term is not blank, get search results from server
     if (this.state.searchTerm.length !== 0) {
       this.setState({loadingScreen: true});
-      fetch('/api/search?searchterm=' + this.state.searchTerm)
+      fetch('/api/search?searchterm=' + this.state.searchTerm, {
+          method: 'GET',
+          credentials: 'include',
+          headers: {'Content-Type': 'application/json'},
+        })
         .then((resp) => resp.json())
         .then((res) => {
           this.setState({loadingScreen: false, searchResults: res});

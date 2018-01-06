@@ -66,6 +66,7 @@ class LoginForm extends Component {
         };
         fetch('/api/users/' + userRoute, {
           method: method,
+          credentials: 'include',
           body: JSON.stringify(data),
           headers: {'Content-Type': 'application/json'},
         })

@@ -31,9 +31,12 @@ class SearchItem extends Component {
       console.log("user is going");
       fetchUrl = '/api/vote/add';
     }
+    console.log(this.state.searchItem.id);
     fetch(fetchUrl, {
       method: 'PUT',
-      body: {barId: this.state.searchItem.id},
+      credentials: 'include',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({barId: this.state.searchItem.id}),
     })
     .then((response) => {
       console.log(response);
