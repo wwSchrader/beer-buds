@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Alert, Button} from 'react-bootstrap';
+import {Alert} from 'react-bootstrap';
 
 class LoginAlert extends Component {
   constructor(props) {
