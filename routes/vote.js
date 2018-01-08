@@ -6,9 +6,6 @@ const {ensureAuthenticated} = require('../library');
 /* Put bar and vote into listing. */
 router.put('/add', ensureAuthenticated, function(req, res, next) {
   // add to database here
-  console.log("Received add request");
-  console.log(req.body);
-  console.log(req.user.username);
   let newBar = new Bar({
     barId: req.body.barId,
     usersGoing: [req.user.username],

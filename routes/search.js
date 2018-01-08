@@ -3,7 +3,6 @@ const router = express.Router();
 const fetch = require('node-fetch');
 const yelp = require('yelp-fusion');
 const Bar = require('../models/bar');
-const asyncLibrary = require('asyncawait/async');
 
 /* GET yelp search listings. */
 router.get('/', function(req, res, next) {
@@ -22,14 +21,12 @@ router.get('/', function(req, res, next) {
         let responseResultsArray = searchResultsArray.map((bar) => {
           let currentUserGoing = false;
           let usersGoing = 0;
-          console.log("bar id:" + bar.id);
+          // find matching bar in database of users going.
           return Bar.findOne({barId: bar.id}, (err, barFromDatabase) => {
             if (err || !barFromDatabase) {
-              console.log("user not going");
               currentUserGoing = false;
               usersGoing = 0;
             } else {
-              console.log("user going");
               usersGoing = barFromDatabase.usersGoing.length;
               if (barFromDatabase.usersGoing.includes(req.body.username)) {
                 currentUserGoing = true;
