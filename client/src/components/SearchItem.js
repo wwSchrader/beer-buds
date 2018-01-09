@@ -11,6 +11,7 @@ class SearchItem extends Component {
 
     this.onButtonPress = this.onButtonPress.bind(this);
     this.onOpenLoginModal = this.onOpenLoginModal.bind(this);
+    this.flipCurrentUserIsGoing = this.flipCurrentUserIsGoing.bind(this);
   }
 
   componentReceiveProps(newProps) {
@@ -21,14 +22,16 @@ class SearchItem extends Component {
     this.props.onOpenLoginModal();
   }
 
+  flipCurrentUserIsGoing() {
+    this.props.flipCurrentUserIsGoing(this.props.index);
+  }
+
   onButtonPress() {
     console.log(this.state);
     let fetchUrl;
     if (this.state.searchItem.currentUserGoing) {
-      console.log("user is not going");
       fetchUrl = '/api/vote/decreasevote';
     } else {
-      console.log("user is going");
       fetchUrl = '/api/vote/add';
     }
     console.log(this.state.searchItem.id);
@@ -42,6 +45,8 @@ class SearchItem extends Component {
       console.log(response);
       if (response.status === 401) {
         this.onOpenLoginModal();
+      } else {
+        this.flipCurrentUserIsGoing();
       }
     });
   }

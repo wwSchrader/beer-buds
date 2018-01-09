@@ -13,6 +13,7 @@ class SearchResults extends Component {
 
     this.getSearchResults = this.getSearchResults.bind(this);
     this.onOpenLoginModal = this.onOpenLoginModal.bind(this);
+    this.flipCurrentUserIsGoing = this.flipCurrentUserIsGoing.bind(this);
   }
 
   componentWillReceiveProps(newProps) {
@@ -42,18 +43,30 @@ class SearchResults extends Component {
     }
   }
 
+  flipCurrentUserIsGoing(index) {
+    let newState = Object.assign({}, this.state);
+    newState.searchResults[index].currentUserGoing
+      = !newState.searchResults[index].currentUserGoing;
+
+    this.setState({
+        searchResults: newState.searchResults,
+    });
+  }
+
   render() {
     console.log(this.state.searchResults);
     let searchResults = null;
     if (this.state.loadingScreen) {
       searchResults = <h2>Loading Results</h2>;
     } else if (this.state.searchResults.length > 0) {
-      searchResults = this.state.searchResults.map((bar) => {
+      searchResults = this.state.searchResults.map((bar, index) => {
         return (
           <SearchItem
               key={bar.id}
+              index={index}
               searchItem={bar}
               onOpenLoginModal={this.onOpenLoginModal}
+              flipCurrentUserIsGoing={this.flipCurrentUserIsGoing}
           />
         );
       });
