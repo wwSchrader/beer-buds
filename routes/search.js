@@ -28,12 +28,10 @@ router.get('/', function(req, res, next) {
               usersGoing = 0;
             } else {
               usersGoing = barFromDatabase.usersGoing.length;
-              if (barFromDatabase.usersGoing.includes(req.body.username)) {
+              if (barFromDatabase.usersGoing.includes(req.user.username)) {
                 currentUserGoing = true;
               }
             }
-            console.log(bar);
-            console.log(barFromDatabase);
             barsToSend.push({
               category: bar.category,
               id: bar.id,
@@ -45,7 +43,6 @@ router.get('/', function(req, res, next) {
               usersGoing: usersGoing,
               currentUserGoing: currentUserGoing,
               categories: bar.categories,
-              isThisWorking: true,
             });
           });
         });
