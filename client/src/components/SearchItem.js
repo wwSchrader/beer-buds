@@ -12,6 +12,7 @@ class SearchItem extends Component {
     this.onButtonPress = this.onButtonPress.bind(this);
     this.onOpenLoginModal = this.onOpenLoginModal.bind(this);
     this.flipCurrentUserIsGoing = this.flipCurrentUserIsGoing.bind(this);
+    this.buttonMessage = this.buttonMessage.bind(this);
   }
 
   componentReceiveProps(newProps) {
@@ -51,6 +52,22 @@ class SearchItem extends Component {
     });
   }
 
+  buttonMessage() {
+    // determine message based on whether user is going and number of people
+    if (this.state.searchItem.usersGoing > 0) {
+      if (this.state.searchItem.currentUserGoing
+          && this.state.searchItem.usersGoing > 1) {
+        return 'You and ' + (this.state.searchItem.usersGoing - 1) + ' are going';
+      } else if (!this.state.searchItem.currentUserGoing) {
+        return this.state.searchItem.usersGoing + ' others are going';
+      } else {
+        return 'You are going';
+      }
+    } else {
+      return 'No one is going';
+    }
+  }
+
   render() {
     return (
       <Col xs={12} sm={6} md={4} lg={2}>
@@ -65,7 +82,7 @@ class SearchItem extends Component {
                     'success' : 'primary'}
                   onClick={this.onButtonPress}
               >
-                {this.state.searchItem.usersGoing} others are going
+                {this.buttonMessage()}
               </Button>&nbsp;
               <Button>Visit Website</Button>
             </p>

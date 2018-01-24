@@ -48,6 +48,13 @@ class SearchResults extends Component {
     newState.searchResults[index].currentUserGoing
       = !newState.searchResults[index].currentUserGoing;
 
+    // add or subtract users going based on if the current user is going
+    if (newState.searchResults[index].currentUserGoing) {
+      newState.searchResults[index].usersGoing += 1;
+    } else {
+      newState.searchResults[index].usersGoing -= 1;
+    }
+
     this.setState({
         searchResults: newState.searchResults,
     });
