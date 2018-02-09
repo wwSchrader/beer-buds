@@ -3,6 +3,7 @@ import SearchForm from './SearchForm.js';
 import SearchResults from './SearchResults.js';
 import LoginModal from './LoginModal.js';
 import LoginAlert from './LoginAlert.js';
+import NavBar from './NavBar.js';
 import {Button} from 'react-bootstrap';
 import '../css/App.css';
 
@@ -59,6 +60,10 @@ class App extends Component {
         <LoginAlert
             showAlert={this.state.loginAlert}
             closeAlert={this.onCloseLoginAlert}
+        />
+        <NavBar
+            updateLoginStatus={this.state.loginModal}
+            openLoginModal={this.openLoginModal}
         />
         <h1>Plans tonight?</h1>
         <h4>See which bars are hoppin' tonight and RSVP ahead of time!</h4>

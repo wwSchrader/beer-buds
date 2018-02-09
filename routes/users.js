@@ -54,6 +54,14 @@ module.exports = function(passport) {
     res.json({isLoggedIn: false});
   });
 
+  router.get('/checkStatus', function(req, res) {
+    if (req.isAuthenticated()) {
+      return res.json({isLoggedIn: true, userName: req.user.username});
+    } else {
+      return res.json({isLoggedIn: false});
+    }
+  });
+
   return router;
 };
 
