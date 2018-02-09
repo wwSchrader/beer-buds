@@ -61,7 +61,7 @@ passport.deserializeUser((id, done) => {
 
 // *** mongoose *** ///
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(process.env.MONGODB_URI, {
   useMongoClient: true,
 });
 
