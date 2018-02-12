@@ -15,7 +15,7 @@ class SearchItem extends Component {
     this.buttonMessage = this.buttonMessage.bind(this);
   }
 
-  componentReceiveProps(newProps) {
+  componentWillReceiveProps(newProps) {
     this.setState({searchItem: newProps.searchItem});
   }
 
