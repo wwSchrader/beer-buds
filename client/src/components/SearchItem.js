@@ -13,6 +13,7 @@ class SearchItem extends Component {
     this.onOpenLoginModal = this.onOpenLoginModal.bind(this);
     this.flipCurrentUserIsGoing = this.flipCurrentUserIsGoing.bind(this);
     this.buttonMessage = this.buttonMessage.bind(this);
+    this.handleWebsiteButtonClick = this.handleWebsiteButtonClick.bind(this);
   }
 
   componentWillReceiveProps(newProps) {
@@ -68,6 +69,11 @@ class SearchItem extends Component {
     }
   }
 
+  handleWebsiteButtonClick() {
+    let win = window.open(this.state.searchItem.url, '_blank');
+    win.focus();
+  }
+
   render() {
     return (
       <Col xs={12} sm={6} md={4} lg={2}>
@@ -84,7 +90,7 @@ class SearchItem extends Component {
               >
                 {this.buttonMessage()}
               </Button>&nbsp;
-              <Button>Visit Website</Button>
+              <Button onClick={this.handleWebsiteButtonClick}>Visit Website</Button>
             </p>
           </Thumbnail>
       </Col>
