@@ -17,6 +17,7 @@ class LoginForm extends Component {
     this.onPasswordChange = this.onPasswordChange.bind(this);
     this.onLoginButtonPress = this.onLoginButtonPress.bind(this);
     this.showLoginErrorMessage = this.showLoginErrorMessage.bind(this);
+    this.registerOrLogin = this.registerOrLogin.bind(this);
   }
 
   componentWillReceiveProps(newProps) {
@@ -49,26 +50,31 @@ class LoginForm extends Component {
     if (
       this.state.username.length > 0 &&
       this.state.password.length > 0) {
-        let userRoute = '';
-        let method = '';
+      this.registerOrLogin(this.state.registrationState);
+    }
+  }
 
-        if (this.state.registrationState) {
-          userRoute = 'register';
-          method = 'PUT';
-        } else {
-          userRoute = 'login';
-          method = 'POST';
-        }
-        let data = {
-          username: this.state.username,
-          password: this.state.password,
-        };
-        fetch('/api/users/' + userRoute, {
-          method: method,
-          credentials: 'include',
-          body: JSON.stringify(data),
-          headers: {'Content-Type': 'application/json'},
-        })
+  registerOrLogin(regState) {
+    let userRoute = '';
+    let method = '';
+
+    if (regState) {
+      userRoute = 'register';
+      method = 'PUT';
+    } else {
+      userRoute = 'login';
+      method = 'POST';
+    }
+    let data = {
+      username: this.state.username,
+      password: this.state.password,
+    };
+    fetch('/api/users/' + userRoute, {
+      method: method,
+      credentials: 'include',
+      body: JSON.stringify(data),
+      headers: {'Content-Type': 'application/json'},
+    })
       .then((resp) => resp.json())
       .then((res) => {
         if (res.isLoggedIn) {
@@ -84,10 +90,12 @@ class LoginForm extends Component {
           this.setState({
             loginErrorMessage: errorMessage,
           });
+        } else if (res.REGISTERED === 'COMPLETE') {
+          // if successfuly registered, login
+          this.registerOrLogin(false);
         }
       })
       .catch((ex) => console.log('Registration failed: ' + ex));
-    }
   }
 
   getValidationState(text) {
