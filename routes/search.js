@@ -28,7 +28,11 @@ router.get('/', function(req, res, next) {
               usersGoing = 0;
             } else {
               usersGoing = barFromDatabase.usersGoing.length;
-              if (barFromDatabase.usersGoing.includes(req.user.username)) {
+              // if user is not logged in
+              if (req.user === undefined) {
+                currentUserGoing = false;
+              } else if (
+                barFromDatabase.usersGoing.includes(req.user.username)) {
                 currentUserGoing = true;
               }
             }
