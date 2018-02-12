@@ -49,7 +49,6 @@ class LoginForm extends Component {
     if (
       this.state.username.length > 0 &&
       this.state.password.length > 0) {
-        console.log('fetch request');
         let userRoute = '';
         let method = '';
 

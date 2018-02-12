@@ -29,14 +29,12 @@ class SearchItem extends Component {
   }
 
   onButtonPress() {
-    console.log(this.state);
     let fetchUrl;
     if (this.state.searchItem.currentUserGoing) {
       fetchUrl = '/api/vote/decreasevote';
     } else {
       fetchUrl = '/api/vote/add';
     }
-    console.log(this.state.searchItem.id);
     fetch(fetchUrl, {
       method: 'PUT',
       credentials: 'include',
@@ -44,7 +42,6 @@ class SearchItem extends Component {
       body: JSON.stringify({barId: this.state.searchItem.id}),
     })
     .then((response) => {
-      console.log(response);
       if (response.status === 401) {
         this.onOpenLoginModal();
       } else {
