@@ -175,7 +175,7 @@ class LoginForm extends Component {
         >
           <ControlLabel>Password</ControlLabel>
           <FormControl
-              type="current-password"
+              type="password"
               placeholder="Enter password"
               value={this.state.password}
               onChange={this.onPasswordChange}
