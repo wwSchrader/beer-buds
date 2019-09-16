@@ -73,7 +73,7 @@ class SearchItem extends Component {
 
   render() {
     return (
-      <Col xs={12} sm={6} md={4} lg={2}>
+      <Col xs={12} sm={6} md={4} lg={3}>
           <Thumbnail src={this.state.searchItem.image_url}>
             <h3>{this.state.searchItem.name}</h3>
             <p>Category: {this.state.searchItem.categories[0].title}</p>
